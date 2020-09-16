@@ -59,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, CategoryActivity.class));
                 }
             });
+
+            addSubCatBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, SubCategoryActivity.class));
+                }
+            });
         }
     }
     private void startLoginFlow(){
