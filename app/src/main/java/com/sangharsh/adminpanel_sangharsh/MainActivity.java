@@ -66,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, SubCategoryActivity.class));
                 }
             });
+
+            addVidBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, VideoActivity.class));
+                }
+            });
         }
     }
     private void startLoginFlow(){

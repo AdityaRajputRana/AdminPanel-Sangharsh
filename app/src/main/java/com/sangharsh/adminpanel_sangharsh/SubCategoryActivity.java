@@ -117,6 +117,7 @@ public class SubCategoryActivity extends AppCompatActivity {
     private void incrementSubCatNumbers(String categoryName) {
         if (homeDocument != null){
             homeCategory.setSubcat(homeCategory.getSubcat()+1);
+            homeDocument.getCourses().remove(index);
             homeDocument.getCourses().add(index, homeCategory);
             FirebaseFirestore.getInstance().collection("app")
                     .document("Home")
