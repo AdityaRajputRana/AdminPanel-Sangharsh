@@ -201,9 +201,9 @@ public class MessageActivity extends AppCompatActivity implements MessageViewAda
         chat.setLastMessage(lastMsg);
         chat.setChatId(getIntent().getStringExtra("CHAT_ID"));
 
-        chat.setChaterPic(user.getPhotoUrl() + "?height=256");
-        chat.setChaterUid(user.getUid());
-        chat.setChaterName(user.getDisplayName());
+        chat.setChaterPic(getIntent().getStringExtra("PHOTO"));
+        chat.setChaterUid(getIntent().getStringExtra("CHAT_ID"));
+        chat.setChaterName((getIntent().getStringExtra("NAME")));
         chat.setStatus(2);
 
         FirebaseDatabase.getInstance()

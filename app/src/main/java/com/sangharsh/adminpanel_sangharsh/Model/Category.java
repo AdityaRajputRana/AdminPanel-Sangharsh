@@ -6,6 +6,16 @@ public class Category {
 
     private String id, name;
     private int subcat;
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    private int price;
     private ArrayList<SubCategory> subcategories;
 
     public ArrayList<SubCategory> getSubcategories() {
@@ -16,11 +26,12 @@ public class Category {
         this.subcategories = subcategories;
     }
 
-    public Category(String id, String name, int subcat, ArrayList<SubCategory> subcategories) {
+    public Category(String id, String name, int subcat, ArrayList<SubCategory> subcategories, int price) {
         this.id = id;
         this.name = name;
         this.subcat = subcat;
         this.subcategories = subcategories;
+        this.price = price;
     }
 
     public String getId() {
