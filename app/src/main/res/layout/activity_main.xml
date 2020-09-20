@@ -45,7 +45,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Add Add Video" />
+            android:text="Add Video" />
+
+        <Button
+            android:id="@+id/manageChatsBtn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addVideos"
+            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Manage User Chats" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

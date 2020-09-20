@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/left_message"
+        android:layout_marginBottom="4dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_marginTop="2dp"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test message morking test hello no yo it s"
+            android:fontFamily="@font/quicksand_light"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:maxWidth="300dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

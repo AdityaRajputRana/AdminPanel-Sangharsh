@@ -52,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
             Button addCatBtn = findViewById(R.id.addCategoryBtn);
             Button addSubCatBtn = findViewById(R.id.addSubCat);
             Button addVidBtn = findViewById(R.id.addVideos);
+            Button manageChatsBtn = findViewById(R.id.manageChatsBtn);
+
+            manageChatsBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, ChatActivity.class));
+                }
+            });
 
             addCatBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
