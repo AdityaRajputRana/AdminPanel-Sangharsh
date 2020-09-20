@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".VideoActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/textView"
@@ -62,16 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/subCatET" />
 
-    <Button
-        android:id="@+id/addBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:text="Add SubCategory"
-        android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <TextView
         android:id="@+id/detailsText"
@@ -80,7 +79,8 @@
         android:textIsSelectable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/addBtn"
+        app:layout_constraintTop_toBottomOf="@id/isSample"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -109,14 +109,13 @@
     <EditText
         android:id="@+id/videoDesEt"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="250dp"
         android:ems="10"
         android:gravity="top"
         android:hint="Description"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/pickVideo"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/videoTitleEt" />
@@ -125,9 +124,41 @@
         android:id="@+id/pickVideo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/detailsText"
-        android:layout_marginBottom="24dp"
+        app:layout_constraintTop_toBottomOf="@id/videoDesEt"
+        android:layout_marginTop="8dp"
         android:text="Pick Video" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sample Video"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/isSample"
+        app:layout_constraintBottom_toBottomOf="@id/isSample" />
+
+    <CheckBox
+        android:id="@+id/isSample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pickVideo"/>
+
+
+            <Button
+                android:id="@+id/addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="Add Video"
+                android:enabled="false"
+                android:layout_marginTop="32dp"
+                app:layout_constraintTop_toBottomOf="@id/detailsText"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

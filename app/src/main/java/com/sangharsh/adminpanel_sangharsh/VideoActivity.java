@@ -7,11 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,6 +29,7 @@ import com.sangharsh.adminpanel_sangharsh.Model.Category;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeCategory;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeDocument;
 import com.sangharsh.adminpanel_sangharsh.Model.SubCategory;
+import com.sangharsh.adminpanel_sangharsh.Model.Video;
 import com.sangharsh.adminpanel_sangharsh.Utils.Tools;
 
 import java.io.File;
@@ -38,18 +42,23 @@ public class VideoActivity extends AppCompatActivity {
     EditText catEditText;
     EditText subCatEditText;
     TextView detailsTxt;
+    EditText vidTitleEt;
+    EditText vidDesEt;
     Button addVidBtn;
     Button pickCat;
     Button pickSubCat;
     HomeDocument homeDocument;
     HomeCategory homeCategory;
     int index = 0;
+    int subCatIndex = 0;
     Category category;
+    CheckBox isSampleCB;
     SubCategory subCategory;
 
     Button pickVidBtn;
     Uri vidUri;
     String vidName;
+    int time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,10 @@ public class VideoActivity extends AppCompatActivity {
 
         pickVidBtn = findViewById(R.id.pickVideo);
         picVidCode();
+
+        vidTitleEt = findViewById(R.id.videoTitleEt);
+        vidDesEt = findViewById(R.id.videoDesEt);
+        isSampleCB = findViewById(R.id.isSample);
 
         catEditText = findViewById(R.id.categoryEt);
         subCatEditText = findViewById(R.id.subCatET);
@@ -155,6 +168,12 @@ public class VideoActivity extends AppCompatActivity {
                     File file = new File(String.valueOf(data.getData()));
                     detailsTxt.setText("video Picked: " + file.getName()+ "\nFrom Location: " + data.getData().toString());
                     vidName= new Tools().getTimeStamp(file.getName());
+                    MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                    retriever.setDataSource(VideoActivity.this, vidUri);
+                    String time = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                    long timeInMillisec = Long.parseLong(time);
+                    this.time = (int) timeInMillisec;
+                    retriever.release();
                 }
                 break;
             default:
@@ -186,7 +205,7 @@ public class VideoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 subCatEditText.setText(categories.get(which).getId());
                 subCategory = categories.get(which);
-                index = which;
+                subCatIndex = which;
                 dialog.dismiss();
             }
         });
@@ -234,8 +253,12 @@ public class VideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!catEditText.getText().toString().isEmpty()
-                        && !subCatEditText.getText().toString().isEmpty()) {
+                        && !subCatEditText.getText().toString().isEmpty()
+                        && !vidTitleEt.getText().toString().isEmpty()
+                        && !vidDesEt.getText().toString().isEmpty()
+                        && vidUri!=null) {
                     addVidBtn.setEnabled(false);
+                    detailsTxt.setText("PLEASE WAIT");
                     pickVidBtn.setEnabled(false);
                     pickSubCat.setEnabled(false);
                     pickCat.setEnabled(false);
@@ -260,6 +283,7 @@ public class VideoActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                     if (task.isSuccessful()) {
                                         detailsTxt.setText("Video Uploaded Successfully! Now Updating details");
+                                        uploadDetails();
                                     } else {
                                         detailsTxt.setText("Upload Failed: "
                                                 + task.getException());
@@ -275,6 +299,34 @@ public class VideoActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void uploadDetails() {
+        final String KEY = "_%66&";
+        String title = vidTitleEt.getText().toString();
+        String description = vidDesEt.getText().toString();
+        String vidId = "id_vid" + KEY + vidName + KEY + "mp4";
+        Video newVideo = new Video(vidId, title, description, isSampleCB.isChecked(), time, category.getId(), subCategory.getId());
+
+        category.getSubcategories().get(subCatIndex).getVideos().add(newVideo);
+        category.getSubcategories().get(subCatIndex).setLectures(category.getSubcategories().get(subCatIndex).getLectures() + 1);
+
+        FirebaseFirestore.getInstance()
+                .collection("Categories")
+                .document(category.getId())
+                .set(category)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            detailsTxt.setText("SUCCESSFUL: Video Lecture Added Successfully");
+                            addVidBtn.setEnabled(true);
+                        } else {
+                            detailsTxt.setText("FAILED: " + task.getException());
+                            addVidBtn.setEnabled(true);
+                        }
+                    }
+                });
     }
 
 }
