@@ -56,8 +56,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:textIsSelectable="true"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="@+id/nameEt"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintStart_toStartOf="@id/nameEt"
+        app:layout_constraintTop_toBottomOf="@+id/priceET" />
 </androidx.constraintlayout.widget.ConstraintLayout>
