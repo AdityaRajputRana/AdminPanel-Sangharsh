@@ -331,11 +331,11 @@ public class BannerAddActivity extends AppCompatActivity {
         }
 
         if (catEditText.getText()!=null && !catEditText.getText().toString().isEmpty()){
-            banner.setRedirectUrl(catEditText.getText().toString());
+            banner.setCategory(catEditText.getText().toString());
         }
 
         if (subCatEditText.getText()!=null && !subCatEditText.getText().toString().isEmpty()){
-            banner.setRedirectUrl(subCatEditText.getText().toString());
+            banner.setSubcategory(subCatEditText.getText().toString());
         }
 
         banner.setId(imgName.substring(0, 3) + (int) Math.random()*1000);
