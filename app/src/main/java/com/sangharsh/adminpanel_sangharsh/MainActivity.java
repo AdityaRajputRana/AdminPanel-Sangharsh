@@ -53,11 +53,27 @@ public class MainActivity extends AppCompatActivity {
             Button addSubCatBtn = findViewById(R.id.addSubCat);
             Button addVidBtn = findViewById(R.id.addVideos);
             Button manageChatsBtn = findViewById(R.id.manageChatsBtn);
+            Button addBannerBtn = findViewById(R.id.addBanner);
+            Button manageBannerBtn = findViewById(R.id.manageBanners);
 
             manageChatsBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MainActivity.this, ChatActivity.class));
+                }
+            });
+
+            addBannerBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, BannerAddActivity.class));
+                }
+            });
+
+            manageBannerBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, BannerDeleteActivity.class));
                 }
             });
 
