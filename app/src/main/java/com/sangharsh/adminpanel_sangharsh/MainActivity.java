@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             Button addCatBtn = findViewById(R.id.addCategoryBtn);
             Button addSubCatBtn = findViewById(R.id.addSubCat);
             Button addVidBtn = findViewById(R.id.addVideos);
+            Button addTopics = findViewById(R.id.addTopics);
             Button manageChatsBtn = findViewById(R.id.manageChatsBtn);
             Button addBannerBtn = findViewById(R.id.addBanner);
             Button manageBannerBtn = findViewById(R.id.manageBanners);
@@ -95,6 +96,13 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(MainActivity.this, VideoActivity.class));
+                }
+            });
+
+            addTopics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(MainActivity.this, TopicActivity.class));
                 }
             });
         }

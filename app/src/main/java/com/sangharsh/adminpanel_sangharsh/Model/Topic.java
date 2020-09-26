@@ -2,7 +2,7 @@ package com.sangharsh.adminpanel_sangharsh.Model;
 
 import java.util.ArrayList;
 
-public class SubCategory {
+public class Topic {
 
     private String id;
     private String name;
@@ -16,40 +16,20 @@ public class SubCategory {
     }
 
     private String category;
+    private String subCat;
     private int lectures;
     private ArrayList<Video> videos;
 
-    public int getTop() {
-        return top;
-    }
-
-    public void setTop(int top) {
-        this.top = top;
-    }
-
-    public ArrayList<Topic> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(ArrayList<Topic> topics) {
-        this.topics = topics;
-    }
-
-    private int top;
-    private ArrayList<Topic> topics;
-
-    public SubCategory(String id, String name, int lectures, ArrayList<Video> videos, String category, int top,
-                       ArrayList<Topic> topics) {
+    public Topic(String id, String name, int lectures, ArrayList<Video> videos, String category, String subCat) {
         this.id = id;
         this.name = name;
         this.lectures = lectures;
         this.videos = videos;
         this.category = category;
-        this.top = top;
-        this.topics = topics;
+        this.subCat = subCat;
     }
 
-    public SubCategory() {
+    public Topic() {
     }
 
     public String getId() {

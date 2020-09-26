@@ -21,6 +21,7 @@ import com.sangharsh.adminpanel_sangharsh.Model.Category;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeCategory;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeDocument;
 import com.sangharsh.adminpanel_sangharsh.Model.SubCategory;
+import com.sangharsh.adminpanel_sangharsh.Model.Topic;
 import com.sangharsh.adminpanel_sangharsh.Model.Video;
 
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class SubCategoryActivity extends AppCompatActivity {
                             .document()
                             .getId();
                     id = id.substring(0, (id.length()-1-subCategoryName.length())) + subCategoryName;
-                    final SubCategory subCategory = new SubCategory(id, subCategoryName, 0, new ArrayList<Video>(), categoryName);
+                    final SubCategory subCategory = new SubCategory(id, subCategoryName, 0, new ArrayList<Video>(), categoryName, 0, new ArrayList<Topic>());
                     FirebaseFirestore.getInstance()
                             .collection("Categories")
                             .document(categoryName)

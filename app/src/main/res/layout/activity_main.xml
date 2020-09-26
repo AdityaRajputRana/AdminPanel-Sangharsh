@@ -7,6 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
@@ -43,10 +47,24 @@
         android:text="Add Subcategory" />
 
         <Button
-            android:id="@+id/addVideos"
+            android:id="@+id/addTopics"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addSubCat"
+            android:layout_marginTop="8dp"
+            android:layout_width="0dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Add Topic" />
+
+        <Button
+            android:id="@+id/addVideos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addTopics"
             android:layout_marginTop="8dp"
             android:layout_width="0dp"
             android:fontFamily="@font/quicksand_bold"
@@ -100,6 +118,7 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/notAdminTV"
@@ -110,5 +129,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
