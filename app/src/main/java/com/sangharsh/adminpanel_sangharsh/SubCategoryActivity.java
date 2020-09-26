@@ -127,8 +127,8 @@ public class SubCategoryActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()){
-                        detailsTxt.setText("SUCCESSFULL: \n\n" + task
-                                .getResult());
+                        detailsTxt.setText("SUCCESSFULLY ADDED SUBCATEGORY\n\n");
+                        subCatEditText.setText("");
                         addCatBtn.setEnabled(true);
                     } else {
                         detailsTxt.setText("SOME ERROR OCCURED: \n\n" + task

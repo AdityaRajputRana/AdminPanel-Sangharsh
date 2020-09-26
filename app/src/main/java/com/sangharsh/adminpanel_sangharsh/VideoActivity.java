@@ -29,6 +29,7 @@ import com.sangharsh.adminpanel_sangharsh.Model.Category;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeCategory;
 import com.sangharsh.adminpanel_sangharsh.Model.HomeDocument;
 import com.sangharsh.adminpanel_sangharsh.Model.SubCategory;
+import com.sangharsh.adminpanel_sangharsh.Model.Topic;
 import com.sangharsh.adminpanel_sangharsh.Model.Video;
 import com.sangharsh.adminpanel_sangharsh.Utils.Tools;
 
@@ -55,6 +56,11 @@ public class VideoActivity extends AppCompatActivity {
     CheckBox isSampleCB;
     SubCategory subCategory;
 
+    Topic topic;
+    int topicIndex = 0;
+    EditText topicEt;
+    Button pickTopicBtn;
+
     Button pickVidBtn;
     Uri vidUri;
     String vidName;
@@ -72,6 +78,7 @@ public class VideoActivity extends AppCompatActivity {
         vidDesEt = findViewById(R.id.videoDesEt);
         isSampleCB = findViewById(R.id.isSample);
 
+        topicEt = findViewById(R.id.topicET);
         catEditText = findViewById(R.id.categoryEt);
         subCatEditText = findViewById(R.id.subCatET);
         addVidBtn = findViewById(R.id.addBtn);
@@ -79,6 +86,7 @@ public class VideoActivity extends AppCompatActivity {
         detailsTxt = findViewById(R.id.detailsText);
         pickSubCat = findViewById(R.id.pickSubCatBtn);
         pickCat = findViewById(R.id.pickCatBtn);
+        pickTopicBtn = findViewById(R.id.pickTopicBtn);
         pickCat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,8 +121,8 @@ public class VideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String categoryID = catEditText.getText().toString();
-                if (!categoryID.isEmpty()){
-                    if(category != null && categoryID.equals(category.getId())){
+                if (!categoryID.isEmpty()) {
+                    if (category != null && categoryID.equals(category.getId())) {
                         showSubCatPickList();
                     } else {
                         pickSubCat.setEnabled(false);
@@ -144,7 +152,52 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
 
+        pickTopicBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String subCatID = subCatEditText.getText().toString();
+                if (!subCatID.isEmpty()) {
+                    showTopicsPickList();
+                } else {
+                    detailsTxt.setText("Please Pick the Category and SubCategory");
+                }
+            }
+        });
     }
+
+    private void showTopicsPickList() {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(VideoActivity.this);
+        builderSingle.setIcon(R.mipmap.ic_launcher);
+        builderSingle.setTitle("Select Any One Topic:-");
+
+        final ArrayList<Topic> topics = subCategory.getTopics();
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(VideoActivity.this, android.R.layout.select_dialog_singlechoice);
+
+        for (Topic topic: topics) {
+            arrayAdapter.add(topic.getName()+"\n(" + topic.getId()+")");
+        }
+
+        builderSingle.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builderSingle.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                VideoActivity.this.topic = subCategory.getTopics().get(which);
+                topicEt.setText(topic.getName());
+                topicIndex = which;
+                dialog.dismiss();
+                addVidBtn.setEnabled(true);
+            }
+        });
+        builderSingle.show();
+        detailsTxt.setText("");
+    }
+
 
     private void picVidCode() {
         pickVidBtn.setOnClickListener(new View.OnClickListener() {
@@ -206,11 +259,20 @@ public class VideoActivity extends AppCompatActivity {
                 subCatEditText.setText(categories.get(which).getId());
                 subCategory = categories.get(which);
                 subCatIndex = which;
+                if (subCategory.getTopics() != null && subCategory.getTopics().size() > 0){
+                    pickTopicBtn.setEnabled(true);
+                    pickTopicBtn.setVisibility(View.VISIBLE);
+                    topicEt.setVisibility(View.VISIBLE);
+                } else {
+                    pickTopicBtn.setVisibility(View.GONE);
+                    topicEt.setVisibility(View.GONE);
+                    pickTopicBtn.setEnabled(false);
+                    addVidBtn.setEnabled(true);
+                }
                 dialog.dismiss();
             }
         });
         builderSingle.show();
-        addVidBtn.setEnabled(true);
         detailsTxt.setText("");
 }
 
@@ -244,7 +306,6 @@ public class VideoActivity extends AppCompatActivity {
             }
         });
         builderSingle.show();
-        addVidBtn.setEnabled(true);
         detailsTxt.setText("");
     }
 
@@ -308,9 +369,13 @@ public class VideoActivity extends AppCompatActivity {
         String vidId = "id_vid" + KEY + vidName + KEY + "mp4";
         Video newVideo = new Video(vidId, title, description, isSampleCB.isChecked(), time, category.getId(), subCategory.getId());
 
-        category.getSubcategories().get(subCatIndex).getVideos().add(newVideo);
-        category.getSubcategories().get(subCatIndex).setLectures(category.getSubcategories().get(subCatIndex).getLectures() + 1);
-
+        if (topicEt.getText() != null && !topicEt.getText().toString().isEmpty()){
+            category.getSubcategories().get(subCatIndex).getTopics().get(topicIndex).getVideos().add(newVideo);
+            category.getSubcategories().get(subCatIndex).getTopics().get(topicIndex).setLectures(category.getSubcategories().get(subCatIndex).getTopics().get(topicIndex).getLectures() + 1);
+        } else {
+            category.getSubcategories().get(subCatIndex).getVideos().add(newVideo);
+            category.getSubcategories().get(subCatIndex).setLectures(category.getSubcategories().get(subCatIndex).getLectures() + 1);
+        }
         FirebaseFirestore.getInstance()
                 .collection("Categories")
                 .document(category.getId())
@@ -321,6 +386,9 @@ public class VideoActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             detailsTxt.setText("SUCCESSFUL: Video Lecture Added Successfully");
                             addVidBtn.setEnabled(true);
+                            vidTitleEt.setText("");
+                            vidUri = null;
+                            vidDesEt.setText("");
                         } else {
                             detailsTxt.setText("FAILED: " + task.getException());
                             addVidBtn.setEnabled(true);
