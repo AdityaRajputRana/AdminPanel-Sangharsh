@@ -50,10 +50,16 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
-        Picasso.get()
-                .load(chats.get(position).getChaterPic())
-                .transform(new CircleTransform())
-                .into(holder.profileImage);
+
+        if (chats.get(position).getChaterPic() == null || chats.get(position).getChaterPic().isEmpty()){
+            holder.profileImage.setImageResource(R.mipmap.ic_launcher_round);
+        }
+        {
+            Picasso.get()
+                    .load(chats.get(position).getChaterPic())
+                    .transform(new CircleTransform())
+                    .into(holder.profileImage);
+        }
 
         holder.nameTextView.setText(chats.get(position).getChaterName());
         if (chats.get(position).getStatus() == 1){

@@ -40,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import com.sangharsh.adminpanel_sangharsh.Adapter.MessageViewAdapter;
 import com.sangharsh.adminpanel_sangharsh.Model.Chat;
 import com.sangharsh.adminpanel_sangharsh.Model.Message;
+import com.sangharsh.adminpanel_sangharsh.Utils.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -137,9 +138,16 @@ public class MessageActivity extends AppCompatActivity implements MessageViewAda
 
         profileImg = findViewById(R.id.profileImage);
 
-        Picasso.get()
-                .load(getIntent().getStringExtra("PHOTO"))
-        .into(profileImg);
+        if (getIntent().getStringExtra("PHOTO") == null || getIntent().getStringExtra("PHOTO").isEmpty()){
+            profileImg.setImageResource(R.mipmap.ic_launcher_round);
+        }
+        {
+            Picasso.get()
+                    .load(getIntent().getStringExtra("PHOTO"))
+                    .transform(new CircleTransform())
+                    .into(profileImg);
+        }
+
 
         nameTextView.setText(getIntent().getStringExtra("NAME"));
         Log.i("MessageAct", "SetUp");
